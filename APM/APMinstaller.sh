@@ -509,7 +509,7 @@ mkdir /backup
 mkdir /root/CO8AAI/php
 
 #memcache 설치
-dnf install memcached libmemcached php-pecl-memcache python-memcached
+dnf install -y memcached libmemcached php-pecl-memcache
 systemctl enable memcached --now
 sed -i 's/OPTIONS=""/OPTIONS="-l 127.0.0.1"/' /etc/sysconfig/memcached
 systemctl restart memcached
