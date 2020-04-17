@@ -76,6 +76,9 @@ echo "<VirtualHost *:80>
 DocumentRoot /home/$id/public_html
 ServerName $url
 ServerAlias www.$url
+<Directory /home/$id/public_html>
+AllowOverride All
+</Directory>
 <FilesMatch \.php$>
     SetHandler "proxy:fcgi://127.0.0.1:90$php"
 </FilesMatch>
@@ -211,6 +214,9 @@ echo "<VirtualHost $ip>
 DocumentRoot /home/$id/public_html
 ServerName $url
 ServerAlias www.$url
+<Directory /home/$id/public_html>
+AllowOverride All
+</Directory>
 <FilesMatch \.php$>
     SetHandler "proxy:fcgi://127.0.0.1:90$php"
 </FilesMatch>
