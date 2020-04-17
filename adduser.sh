@@ -107,6 +107,7 @@ rm -f ./tmp
 
 #SSL 추가 하기 
 certbot-auto --apache -d $url -d www.$url
+#certbot-auto certonly --apache -d $url -d www.$url
 
 #아파치 restart
 service httpd restart
@@ -316,6 +317,7 @@ then
 fi
 
 certbot-auto --apache -d $url -d www.$url
+#certbot-auto certonly --apache -d $url -d www.$url
 
 echo 
 echo 

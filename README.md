@@ -81,6 +81,7 @@ memcache
 memcached 
 mod_expires
 ImageMagick
+clamav
 GeoIP
 cockpit
 사용지 계정 백업 스크립트 1.2

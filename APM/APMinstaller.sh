@@ -355,6 +355,8 @@ chmod 700 /root/CO8AAI/adduser.sh
 
 chmod 700 /root/CO8AAI/deluser.sh
 
+chmod 700 /root/CO8AAI/clamav.sh
+
 chmod 700 /root/CO8AAI/restart.sh
 
 cp /root/CO8AAI/APM/skel/index.html /etc/skel/public_html/
@@ -555,7 +557,6 @@ chmod 700 /etc/cron.daily/backup
 chmod 700 /etc/cron.daily/check_chkrootkit
 
 
-echo "00 20 * * * /root/check_chkrootkit" >> /etc/crontab
 echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot-auto renew" | sudo tee -a /etc/crontab > /dev/null
 echo "01 01 * * 7 /root/CO8AAI/clamav.sh" >> /etc/crontab
 
