@@ -2,10 +2,10 @@
  
 #####################################################################################
 #                                                                                   #
-# * APMinstaller v.1 with CentOS8                                                   #
+# * APMinstaller v.1.2 with CentOS8                                                 #
 # * CentOS-8-x86_64-1911                                                            #
 # * Apache 2.4.X , MariaDB 10.4.X, Multi-PHP(base php7.2) setup shell script        #
-# * Created Date    : 2020/04/15                                                    #
+# * Created Date    : 2020/11/28                                                    #
 # * Created by  : Joo Sung ( webmaster@apachezone.com )                             #
 #                                                                                   #
 #####################################################################################
@@ -18,11 +18,11 @@
 ########################################## 
 cd /root/CO8AAI/APM
 
-wget https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-all-languages.tar.gz
+wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz
 
-tar -zxvf phpMyAdmin-5.0.2-all-languages.tar.gz
+tar -zxvf phpMyAdmin-5.0.4-all-languages.tar.gz
 
-mv phpMyAdmin-5.0.2-all-languages /usr/share/phpMyAdmin
+mv phpMyAdmin-5.0.4-all-languages /usr/share/phpMyAdmin
 
 cp -pr /usr/share/phpMyAdmin/config.sample.inc.php /usr/share/phpMyAdmin/config.inc.php
 

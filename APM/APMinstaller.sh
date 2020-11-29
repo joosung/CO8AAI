@@ -2,10 +2,10 @@
  
 #####################################################################################
 #                                                                                   #
-# * APMinstaller v.1 with CentOS8                                                   #
+# * APMinstaller v.1.2 with CentOS8                                                 #
 # * CentOS-8-x86_64-1911                                                            #
 # * Apache 2.4.X , MariaDB 10.4.X, Multi-PHP(base php7.2) setup shell script        #
-# * Created Date    : 2020/04/15                                                    #
+# * Created Date    : 2020/11/28                                                    #
 # * Created by  : Joo Sung ( webmaster@apachezone.com )                             #
 #                                                                                   #
 #####################################################################################
@@ -22,6 +22,8 @@ libxml2-devel libXpm-devel gmp-devel libicu-devel openssl-devel gettext-devel \
 bzip2-devel libcurl-devel libjpeg-devel libpng-devel freetype-devel readline-devel \
 libxslt-devel pcre-devel curl-devel ncurses-devel autoconf automake zlib-devel libuuid-devel \
 net-snmp-devel libevent-devel libtool-ltdl-devel postgresql-devel bison make pkgconfig firewalld yum-utils
+
+yum install -y glibc-langpack-en
 
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm
@@ -196,6 +198,15 @@ php74-php-pecl-apcu php74-php-pecl-geoip php74-php-pecl-memcached php74-php-pecl
 php74-php-pecl-mailparse php74-php-pgsql php74-php-process php74-php-ioncube-loader
 
 
+dnf -y install php80 php80-php-cli php80-php-fpm \
+php80-php-common php80-php-pdo php80-php-mysqlnd php80-php-mbstring php80-php-mcrypt \
+php80-php-opcache php80-php-xml php80-php-pecl-imagick php80-php-gd php80-php-fileinfo \
+php80-php-pecl-ssh2 php80-php-soap php80-php-devel php80-php-imap \
+php80-php-json php80-php-ldap php80-php-xml php80-php-iconv php80-php-xmlrpc php80-php-snmp \
+php80-php-pecl-apcu php80-php-pecl-geoip php80-php-pecl-memcached php80-php-pecl-redis \
+php80-php-pecl-mailparse php80-php-pgsql php80-php-process
+
+
 echo 'listen = 127.0.0.1:9056
 pm = ondemand' >> /etc/opt/remi/php56/php-fpm.d/www.conf
 
@@ -210,6 +221,9 @@ pm = ondemand' >> /etc/opt/remi/php72/php-fpm.d/www.conf
 
 echo 'listen = 127.0.0.1:9073
 pm = ondemand' >> /etc/opt/remi/php73/php-fpm.d/www.conf
+
+echo 'listen = 127.0.0.1:9080
+pm = ondemand' >> /etc/opt/remi/php80/php-fpm.d/www.conf
 
 echo 'listen = 127.0.0.1:9074
 pm = ondemand' >> /etc/opt/remi/php74/php-fpm.d/www.conf
@@ -234,6 +248,9 @@ systemctl enable php73-php-fpm
 
 systemctl start php74-php-fpm
 systemctl enable php74-php-fpm
+
+systemctl start php80-php-fpm
+systemctl enable php80-php-fpm
 
 sed -i 's/php_value/#php_value/' /etc/httpd/conf.d/php.conf
 
@@ -346,6 +363,19 @@ sed -i 's/;date.timezone =/date.timezone = "Asia\/Seoul"/' /etc/opt/remi/php74/p
 sed -i 's/session.gc_maxlifetime = 1440/session.gc_maxlifetime = 86400/' /etc/opt/remi/php74/php.ini
 sed -i 's/disable_functions =/disable_functions = system,exec,passthru,proc_open,popen,curl_multi_exec,parse_ini_file,show_source/' /etc/opt/remi/php74/php.ini 
 
+cp -av /etc/opt/remi/php80/php.ini /etc/opt/remi/php80/php.ini.original
+sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/opt/remi/php80/php.ini
+sed -i 's/expose_php = On/expose_php = Off/' /etc/opt/remi/php80/php.ini
+sed -i 's/display_errors = Off/display_errors = On/' /etc/opt/remi/php80/php.ini
+sed -i 's/;error_log = php_errors.log/error_log = php_errors.log/' /etc/opt/remi/php80/php.ini
+sed -i 's/error_reporting = E_ALL \& ~E_DEPRECATED/error_reporting = E_ALL \& ~E_NOTICE \& ~E_DEPRECATED \& ~E_USER_DEPRECATED/' /etc/opt/remi/php80/php.ini
+sed -i 's/variables_order = "GPCS"/variables_order = "EGPCS"/' /etc/opt/remi/php80/php.ini
+sed -i 's/post_max_size = 8M/post_max_size = 100M/' /etc/opt/remi/php80/php.ini
+sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 100M/' /etc/opt/remi/php80/php.ini
+sed -i 's/;date.timezone =/date.timezone = "Asia\/Seoul"/' /etc/opt/remi/php80/php.ini
+sed -i 's/session.gc_maxlifetime = 1440/session.gc_maxlifetime = 86400/' /etc/opt/remi/php80/php.ini
+sed -i 's/disable_functions =/disable_functions = system,exec,passthru,proc_open,popen,curl_multi_exec,parse_ini_file,show_source/' /etc/opt/remi/php80/php.ini 
+
 
 mkdir /etc/skel/public_html
 
@@ -354,8 +384,6 @@ chmod 707 /etc/skel/public_html
 chmod 700 /root/CO8AAI/adduser.sh
 
 chmod 700 /root/CO8AAI/deluser.sh
-
-chmod 700 /root/CO8AAI/clamav.sh
 
 chmod 700 /root/CO8AAI/restart.sh
 
@@ -367,6 +395,7 @@ rm -rf /etc/httpd/conf.d/php71-php.conf
 rm -rf /etc/httpd/conf.d/php72-php.conf
 rm -rf /etc/httpd/conf.d/php73-php.conf
 rm -rf /etc/httpd/conf.d/php74-php.conf
+rm -rf /etc/httpd/conf.d/php80-php.conf
 
 systemctl restart httpd
 
@@ -380,6 +409,7 @@ sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/' /etc/opt/remi/php71/php.i
 sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/' /etc/opt/remi/php72/php.ini
 sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/' /etc/opt/remi/php73/php.ini
 sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/' /etc/opt/remi/php74/php.ini
+sed -i 's/allow_url_fopen = On/allow_url_fopen = Off/' /etc/opt/remi/php80/php.ini
 
 systemctl restart httpd
 
@@ -557,6 +587,7 @@ chmod 700 /etc/cron.daily/backup
 chmod 700 /etc/cron.daily/check_chkrootkit
 
 
+echo "00 20 * * * /root/check_chkrootkit" >> /etc/crontab
 echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot-auto renew" | sudo tee -a /etc/crontab > /dev/null
 echo "01 01 * * 7 /root/CO8AAI/clamav.sh" >> /etc/crontab
 
@@ -574,6 +605,7 @@ ln -s /etc/opt/remi/php71/php.ini /root/CO8AAI/php/php71.ini
 ln -s /etc/opt/remi/php72/php.ini /root/CO8AAI/php/php72.ini
 ln -s /etc/opt/remi/php73/php.ini /root/CO8AAI/php/php73.ini
 ln -s /etc/opt/remi/php74/php.ini /root/CO8AAI/php/php74.ini
+ln -s /etc/opt/remi/php80/php.ini /root/CO8AAI/php/php80.ini
 
 service httpd restart
 
@@ -585,7 +617,7 @@ cd /root/CO8AAI
 #                                        #
 ########################################## 
 
-dnf install -y cockpit
+dnf install -y cockpit cockpit-storaged
 
 systemctl enable --now cockpit.socket
 

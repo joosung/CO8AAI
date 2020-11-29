@@ -76,9 +76,6 @@ echo "<VirtualHost *:80>
 DocumentRoot /home/$id/public_html
 ServerName $url
 ServerAlias www.$url
-<Directory /home/$id/public_html>
-AllowOverride All
-</Directory>
 <FilesMatch \.php$>
     SetHandler "proxy:fcgi://127.0.0.1:90$php"
 </FilesMatch>
@@ -106,8 +103,7 @@ mysql -u root -p mysql < ./tmp
 rm -f ./tmp
 
 #SSL 추가 하기 
-/usr/local/bin/certbot-auto --apache -d $url -d www.$url
-#/usr/local/bin/certbot-auto certonly --apache -d $url -d www.$url
+certbot-auto --apache -d $url -d www.$url
 
 #아파치 restart
 service httpd restart
@@ -215,9 +211,6 @@ echo "<VirtualHost $ip>
 DocumentRoot /home/$id/public_html
 ServerName $url
 ServerAlias www.$url
-<Directory /home/$id/public_html>
-AllowOverride All
-</Directory>
 <FilesMatch \.php$>
     SetHandler "proxy:fcgi://127.0.0.1:90$php"
 </FilesMatch>
@@ -316,8 +309,7 @@ then
            exit
 fi
 
-/usr/local/bin/certbot-auto --apache -d $url -d www.$url
-#/usr/local/bin/certbot-auto certonly --apache -d $url -d www.$url
+certbot-auto --apache -d $url -d www.$url
 
 echo 
 echo 
