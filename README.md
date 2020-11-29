@@ -6,6 +6,7 @@ CO8AAI - APMinstaller v.1.2 with CentOS8
 Let's Encrypt - 무료 SSL 인증서 발급 및 갱신 지원
 Multi PHP 지원 (base php7.2) - 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0
 모니터링 툴 - cockpit 지원
+phpmyadmin 5.0.4 최신 버전 지원
 </pre>
 
 
@@ -66,7 +67,7 @@ https://apachezone.com
 APM 및 설치 버전은 아래와 같습니다.
 
 httpd 2.4.x
-php 7.2.x
+multi php (base php7.2) - 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0
 mariadb 10.4.x
 ionCube PHP Loader
 Zend OPcache
